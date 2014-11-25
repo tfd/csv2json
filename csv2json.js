@@ -53,31 +53,32 @@ fs.createReadStream(__dirname + '/members.csv')
                              email: record.mEMail,
                              level: skillLevelToString(record.mSkillLevel),
                              isStarPlayer: record.mStarPlayers === '1',
-                             isRbdPlayer: false,
+                             isRbdPlayer: record.mTopPlayers,
                              isEnabled: record.mValid === '1' && record.mDisable === '0',
                              isBlackListed: record.mBlackList === '1',
                              isBanned: false,
                              rock: {
                                totalScores: {
                                 numTournaments: parseInt(record.mNumberOfRankedTournaments, 10),
-                                averageScore: parseFloat(record.mAverageScore),
-                                averageMatchPoints: 0.0,
+                                averageScore: parseFloat(record.mRankAverage),
+                                averageMatchPoints: parseFloat(record.mAverageScore),
                                 awards: parseInt(record.mRank, 10)
                                } 
                              },
                              rbd: {
                                totalScores: {
                                 numTournaments: parseInt(record.mTPNumberOfRankedTournaments, 10),
-                                averageScore: parseFloat(record.mTPAverageScore),
-                                averageMatchPoints: 0.0,
-                                awards: parseInt(record.mTPRank)
+                                averageScore: parseFloat(record.mTPRankAverage),
+                                averageMatchPoints: parseFloat(record.mTPAverageScore),
+                                awards: parseInt(record.mTPRank, 10)
                                } 
                              },
                              validatedAt: parseDate(record.mValidateDate),
                              registeredAt: parseDate(record.mCheckRegistrationDate),
                              createdAt: parseDate(record.mRegisterDate)
                            };
-                           console.log(rec);
+
+                           console.log(JSON.stringify(rec));
                            console.log(',');
                          };
                        }));
@@ -101,22 +102,22 @@ mTPAverageScore,mTPNumberOfTournaments,mTPRank,mTPNumberOfRankedTournaments,mTPR
   email               : mEMail,
   level               : mSkillLevel (1 = 'Beginner', 2 = 'Intermediate', 3 = 'Advanced', 4 = 'Expert', 5 = 'Champion', 6 = 'World Class')
   isStarPlayer        : mStarPlayers,
-  isRbdPlayer         : {type : Boolean, default : false},
+  isRbdPlayer         : mTopPlayers,
   isEnabled           : ! mDisable,
   isBlackListed       : mBlackList,
   isBanned            : false,
   rock: {
     totalScores         : {
       numTournaments      : mNumberOfRankedTournaments,
-      averageScore        : mAverageScore,
-      averageMatchPoints  : 0.0,
+      averageScore        : mRankAverage,
+      averageMatchPoints  : mAverageScore,
       awards              : mRank}
   },
   rbd: {
     totalScores         : {
       numTournaments      : mTPNumberOfRankedTournaments,
-      averageScore        : mTPAverageScore,
-      averageMatchPoints  : 0.0,
+      averageScore        : mTPRankAverage,
+      averageMatchPoints  : mTPAverageScore,
       awards              : mTPRank}
   },
   validatedAt         : mValidateDate,
